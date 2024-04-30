@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #messages { list-style-type: none; margin: 0; padding: 0; max-height: calc(100vh - 50px) !important; overflow: auto; }
+        #messages li { padding: 5px 10px; }
+        #messages li:nth-child(odd) { background: #eee; }
+      </style>
+<script src="https://cdn.socket.io/4.7.5/socket.io.min.js" integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO" crossorigin="anonymous"></script>
+<script src="src/main.js" defer></script>
+<script src="src/queries.js" defer></script>
+<script src="src/fetch.js" defer></script>
+<script src="src/login.ts" type="module"></script>
+</head>
+<body id="home">
+    <ul id="messages"></ul>
+  <form action="#">
+    <input id="m" autocomplete="off" placeholder="Score">
+    <input id="ok" autocomplete="off" placeholder="decreaseValue">
+  //<input type="submit">
+  //<input id="valueSender" type="submit" value="Send value">
+   // <input type="button" value="End game" onclick="">
+  //<input type="button" value="join game" onclick="window.location.href = 'room.html'">
+  //<input type="button" value="Create game" onclick="window.location.href = 'createRoom.html'">
+  //<input type="button" value="Login" id="login-button">
+</form>
+<div class="modal" tabindex="-1" id="darts-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
+
+
+
