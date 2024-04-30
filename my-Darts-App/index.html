@@ -10,21 +10,23 @@
         #messages li:nth-child(odd) { background: #eee; }
       </style>
 <script src="https://cdn.socket.io/4.7.5/socket.io.min.js" integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO" crossorigin="anonymous"></script>
-<script src="src/main.js" defer></script>
-<script src="src/queries.js" defer></script>
-<script src="src/fetch.js" defer></script>
-<script src="src/login.ts" type="module"></script>
+<script type="module" src="src/main.ts" defer></script>
+
+<script type="module" src="src/queries.ts" defer></script>
+<script type="module" src="src/fetch.ts" defer></script>
+<script type="module" src="src/login.ts" type="module"></script>
 </head>
 <body id="home">
+  <h2 id="roomName"></h2>
     <ul id="messages"></ul>
   <form action="#">
     <input id="m" autocomplete="off" placeholder="Score">
     <input id="ok" autocomplete="off" placeholder="decreaseValue">
   //<input type="submit">
   //<input id="valueSender" type="submit" value="Send value">
-   // <input type="button" value="End game" onclick="">
-  //<input type="button" value="join game" onclick="window.location.href = 'room.html'">
-  //<input type="button" value="Create game" onclick="window.location.href = 'createRoom.html'">
+  //<input id="endGame" type="button" value="Leave Room" onclick="">
+  //<input id="joinGame" type="button" value="Join Room" >
+  //<input id="createGame" type="button" value="Create Room" >
   //<input type="button" value="Login" id="login-button">
 </form>
 <div class="modal" tabindex="-1" id="darts-modal">

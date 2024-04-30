@@ -9,6 +9,9 @@ import { doGraphQLFetch } from './fetch';
 import { login } from './queries';
 
 
+//////////////// tää johki muualle?=////////////////////////
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 
 const loginButton = document.querySelector(
@@ -18,6 +21,9 @@ const loginButton = document.querySelector(
 
   const myModal = new Modal('#darts-modal');
   const user: User = {};
+
+
+  ///////////////////////////// muuta tää .env:ksi////////////////////////
   const apiURL = 'http://localhost:3000/graphql';
   
   const forms = document.querySelector('#forms') as HTMLDivElement;
@@ -49,7 +55,7 @@ const loginButton = document.querySelector(
 
          setTimeout(() => {
             myModal.hide();
-          }, 10000);
+          }, 2000);
           loginButton.parentElement!.classList.add('d-none');
           loginButton.parentElement!.classList.remove('d-none');
         //  forms.classList.remove('d-none');
