@@ -1,4 +1,8 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { io } from 'socket.io-client';
+import { addGame } from './queries';
+import { doGraphQLFetch } from './fetch';
+
 
 const apiUrl = 'http://localhost:3000/graphql';
 
@@ -28,19 +32,6 @@ function onPageLoad() {
             break;
     }
 }
-/*
-function generateRoomName() {
-    // Generate a random room name
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let roomName = '';
-    for (let i = 0; i < 1; i++) {
-        roomName += characters.charAt(Math.floor(Math.random() * characters.length));
-    }
-    displayRoomName(roomName);
-    // Call the function to connect to the room
-    connectToRoom(roomName);
-}*/
-
 
 ///TOIMIIIII
 const generateRoomName = () => {
@@ -68,7 +59,6 @@ const displayRoomName = (roomName: string) => {
 };
 
 
-
 const connectToRoom = (roomName: string) => {
     console.log("koittaa connectaa")
     console.log("current client's name is: " + socket.id);
@@ -78,23 +68,7 @@ const connectToRoom = (roomName: string) => {
         // Connection established, now you can access socket.id safely
         
     });
-}
-/*
-function connectToRoom(roomName: string) {
-    socket.on('connect', () => {
-        // Connection established, now you can access socket.id safely
-        console.log("current client's name is: " + socket.id);
-        socket.emit("create", roomName);
-        socket.emit("setCurrentTurn", socket.id);
-    });
-}
-*//*
-function askRoomName() {
-    const roomName = prompt("Enter room name:");
-    socket.emit("create", roomName);
-    console.log("current client's name is: " + socket.id);
-}
-*/
+};
 
 //// KYSy huoneen ninme
 const askRoomName = () => {
@@ -112,7 +86,6 @@ document.querySelector("form")?.addEventListener("submit", (event) => {
     socket.emit("update", inp.value);
     console.log("score sent: " + inp.value);
     inp.value = "";
-//generateRoomName();
 });
 
 ///SendValue nappi
@@ -154,7 +127,6 @@ document.querySelector("input[id=endGame]")?.addEventListener("click", (event) =
   //  socket.emit("endGame");
 });
 
-
 ///CreateGame nappi
 document.querySelector("input[id=createGame]")?.addEventListener("click", (event) => {
     event.preventDefault();
@@ -165,11 +137,6 @@ document.querySelector("input[id=createGame]")?.addEventListener("click", (event
 document.querySelector("input[id=valueSender]")?.addEventListener("click", () => {
     console.log("test");
 });
-
-
-
-
-
 
 
 socket.on("test", (msg: string) => {
@@ -199,13 +166,35 @@ socket.on("updateScore", (msg: string) => {
 });
 
 socket.on("gameOver", (msg: string) => {
+    //const roomClients = io.sockets.adapter.rooms.get(room.toString()) ?? new Set<string>(); // Cast 'room' to 'string' and provide a default value of an empty set
     alert(msg);
+    console.log(msg);
     // location.reload();
 
     ///////////////////////////////////////////////////////
     //const gameResult = await doGraphQLFetch(apiUrl, getGameResult, {});
 });
 
+
+/// Add winner
+socket.on("sendArray", async (players: string[]) => {
+    console.log("clients: " + players);
+    players.forEach((player) => {
+        console.log("room clients: " + player);
+    });
+    try {
+        const winnerData = await doGraphQLFetch(apiUrl, addGame, {
+            game: {
+                user1: players[0],
+                user2: players[1],
+                winner: "test",
+            },
+        });
+        console.log("winnerData: ", winnerData);
+    } catch (error) {
+        console.error("Error:", error);
+    }
+});
 socket.on("bust", (msg: string) => {
     alert(msg);
     // location.reload();

@@ -10,7 +10,6 @@ import { login } from './queries';
 
 
 //////////////// tää johki muualle?=////////////////////////
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 

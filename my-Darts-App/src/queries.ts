@@ -14,6 +14,14 @@ query Species {
     }
 }`;
 
+const addGame = `
+mutation AddGame($game: GameInput!) {
+    addGame(game: $game) {
+        user1
+        user2
+        winner
+        }
+        }`;
 
 const login = `
 mutation Login($credentials: Credentials!) {
@@ -29,8 +37,7 @@ mutation Login($credentials: Credentials!) {
   }
   `;
 
-
-  const checkToken = `
+const checkToken = `
 query CheckToken {
     checkToken {
       message
@@ -41,8 +48,4 @@ query CheckToken {
   }
 `;
 
-export {
-  login,
-  checkToken,
-
-};
+export { login, checkToken, addGame };
