@@ -53,6 +53,7 @@ const generateRoomName = () => {
     console.log("roomName: " + roomName)
     displayRoomName(roomName);
     // Call the function to connect to the room
+    console.log("UUUSI HUONE")
     connectToRoom(roomName);
 };
 
@@ -70,11 +71,12 @@ const displayRoomName = (roomName: string) => {
 
 const connectToRoom = (roomName: string) => {
     console.log("koittaa connectaa")
+    console.log("current client's name is: " + socket.id);
+        socket.emit("create", roomName);
+        socket.emit("setCurrentTurn", socket.id);
     socket.on('connect', () => {
         // Connection established, now you can access socket.id safely
-        console.log("current client's name is: " + socket.id);
-        socket.emit("create", 'B');
-        socket.emit("setCurrentTurn", socket.id);
+        
     });
 }
 /*
@@ -110,7 +112,7 @@ document.querySelector("form")?.addEventListener("submit", (event) => {
     socket.emit("update", inp.value);
     console.log("score sent: " + inp.value);
     inp.value = "";
-generateRoomName();
+//generateRoomName();
 });
 
 ///SendValue nappi
@@ -139,13 +141,26 @@ document.querySelector("input[id=joinGame]")?.addEventListener("click", (event) 
   
 });
 
-
 ///EndGame nappi
 document.querySelector("input[id=endGame]")?.addEventListener("click", (event) => {
     event.preventDefault();
+    if(connectedToRoom == true) {
     connectedToRoom = false;
+    alert("Disconnected from a room.");
+    }
+    else {
+        alert("You are not connected to a room.");
+    }
   //  socket.emit("endGame");
 });
+
+
+///CreateGame nappi
+document.querySelector("input[id=createGame]")?.addEventListener("click", (event) => {
+    event.preventDefault();
+    generateRoomName();
+});
+
 
 document.querySelector("input[id=valueSender]")?.addEventListener("click", () => {
     console.log("test");
