@@ -70,10 +70,11 @@ const connectToRoom = (roomName: string) => {
     });
 };
 
+
 //// KYSy huoneen ninme
 const askRoomName = () => {
     const roomName = prompt("Enter room name:");
-    socket.emit("create", roomName);
+    socket.emit("join", roomName);
     console.log("current client's name is: " + socket.id);
     connectedToRoom = true;
     console.log("connectedToRoom: " + connectedToRoom);
