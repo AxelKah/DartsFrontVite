@@ -12,6 +12,8 @@ import updateUserPanel from './interface/updateUserPanel';
 
 //////////////// tää johki muualle?=////////////////////////
 
+const loggedInUser = localStorage.getItem('user');
+
 
 
 const loginButton = document.querySelector(

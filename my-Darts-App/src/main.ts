@@ -75,7 +75,7 @@ const connectToRoom = (roomName: string) => {
 //// KYSy huoneen ninme
 const askRoomName = () => {
     const roomName = prompt("Enter room name:");
-    socket.emit("join", roomName);
+    socket.emit("create", roomName);
     console.log("current client's name is: " + socket.id);
     connectedToRoom = true;
     console.log("connectedToRoom: " + connectedToRoom);
@@ -105,7 +105,7 @@ document.querySelector("input[id=valueSender]")?.addEventListener("click", (even
 });
 
 ///JoinGame nappi
-document.querySelector("input[id=joinGame]")?.addEventListener("click", (event) => {
+document.querySelector("a[id=joinGame]")?.addEventListener("click", (event) => {
     event.preventDefault();
     if(connectedToRoom == false) {
     askRoomName();
@@ -115,6 +115,8 @@ document.querySelector("input[id=joinGame]")?.addEventListener("click", (event) 
     }
   
 });
+
+
 
 ///EndGame nappi
 document.querySelector("input[id=endGame]")?.addEventListener("click", (event) => {
@@ -130,7 +132,8 @@ document.querySelector("input[id=endGame]")?.addEventListener("click", (event) =
 });
 
 ///CreateGame nappi
-document.querySelector("input[id=createGame]")?.addEventListener("click", (event) => {
+
+document.querySelector("a[id=createGame]")?.addEventListener("click", (event) => {
     event.preventDefault();
     generateRoomName();
 });
@@ -176,11 +179,19 @@ socket.on("gameOver", (msg: string) => {
     //const roomClients = io.sockets.adapter.rooms.get(room.toString()) ?? new Set<string>(); // Cast 'room' to 'string' and provide a default value of an empty set
     alert(msg);
     console.log(msg);
+    connectedToRoom = false;
+    const sendMessageBtn = document.querySelector("input[id=valueSender]") as HTMLButtonElement;
+    sendMessageBtn.disabled = true;
+
+    });
+
+    
+
     // location.reload();
 
     ///////////////////////////////////////////////////////
     //const gameResult = await doGraphQLFetch(apiUrl, getGameResult, {});
-});
+
 
 /*
 /// Add winner
