@@ -1,46 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        #messages { list-style-type: none; margin: 0; padding: 0; max-height: calc(100vh - 50px) !important; overflow: auto; }
-        #messages li { padding: 5px 10px; }
-        #messages li:nth-child(odd) { background: #eee; }
-      </style>
-<script src="https://cdn.socket.io/4.7.5/socket.io.min.js" integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO" crossorigin="anonymous"></script>
-<script type="module" src="src/main.ts" defer></script>
-
-<script type="module" src="src/queries.ts" defer></script>
-<script type="module" src="src/fetch.ts" defer></script>
-<script type="module" src="src/login.ts" type="module"></script>
-<script type="module" src="src/register.ts" type="module"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <style>
+    #messages { list-style-type: none; margin: 0; padding: 0; max-height: calc(100vh - 50px) !important; overflow: auto; }
+    #messages li { padding: 5px 10px; }
+    #messages li:nth-child(odd) { background: #eee; }
+  </style>
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js" integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO" crossorigin="anonymous"></script>
+  <script type="module" src="src/main.ts" defer></script>
+  <script type="module" src="src/queries.ts" defer></script>
+  <script type="module" src="src/fetch.ts" defer></script>
+  <script type="module" src="src/login.ts" type="module"></script>
+  <script type="module" src="src/register.ts" type="module"></script>
 </head>
 <body id="home">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="#">My Darts App</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Profile</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="login-button">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="register-button">Register</a>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
   <h2 id="roomName"></h2>
-    <ul id="messages"></ul>
+  <ul id="messages"></ul>
   <form action="#">
     <input id="m" autocomplete="off" placeholder="Score">
     <input id="ok" autocomplete="off" placeholder="decreaseValue">
-  //<input type="submit">
-  //<input id="valueSender" type="submit" value="Send value">
-  //<input id="endGame" type="button" value="Leave Room" onclick="">
-  //<input id="joinGame" type="button" value="Join Room" >
-  //<input id="createGame" type="button" value="Create Room" >
-  //<input type="button" value="Login" id="login-button">
-  //<input type="button" value="Register" id="register-button">
-</form>
-<div class="modal" tabindex="-1" id="darts-modal">
-  <div class="modal-dialog">
-    <div class="modal-content">
-
+    <!-- Rest of your form code -->
+  </form>
+  <div class="modal" tabindex="-1" id="darts-modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- Modal content -->
+      </div>
     </div>
   </div>
-</div>
 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
-
-
