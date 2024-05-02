@@ -2,6 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { io } from 'socket.io-client';
 import { addGame } from './queries';
 import { doGraphQLFetch } from './fetch';
+import updateUserPanel from './interface/updateUserPanel';
 
 
 const apiUrl = 'http://localhost:3000/graphql';
@@ -9,7 +10,6 @@ const apiUrl = 'http://localhost:3000/graphql';
 const socket = io('http://localhost:3003');
 
 let connectedToRoom = false;
-
 
 
 const newRoomButton = document.querySelector(

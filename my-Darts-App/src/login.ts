@@ -64,6 +64,7 @@ const loginButton = document.querySelector(
           loginButton.parentElement!.classList.remove('d-none');
         //  forms.classList.remove('d-none');
           localStorage.setItem('token', loginData.login.token!);
+          localStorage.setItem('user', JSON.stringify(loginData.login));
 // jos ei muuta keksitä          localStorage.setItem('user', JSON.stringify(loginData.login.user));
           user.user_name = loginData.login.user.user_name!;
 
