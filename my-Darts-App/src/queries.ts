@@ -37,6 +37,19 @@ mutation Login($credentials: Credentials!) {
   }
   `;
 
+  const register = `
+  mutation Register($user: UserInput!) {
+    register(user: $user) {
+      message
+      user {
+        email
+        id
+        user_name
+      }
+    }
+  }
+  `;
+
 const checkToken = `
 query CheckToken {
     checkToken {
@@ -48,4 +61,4 @@ query CheckToken {
   }
 `;
 
-export { login, checkToken, addGame };
+export { login, checkToken, addGame , register};

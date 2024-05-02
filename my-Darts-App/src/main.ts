@@ -64,6 +64,7 @@ const connectToRoom = (roomName: string) => {
     console.log("current client's name is: " + socket.id);
         socket.emit("create", roomName);
         socket.emit("setCurrentTurn", socket.id);
+        connectedToRoom = true;
     socket.on('connect', () => {
         // Connection established, now you can access socket.id safely
         
@@ -165,6 +166,11 @@ socket.on("updateScore", (msg: string) => {
         clientScoreDiv.innerHTML = `${name}: ${score}<br> Current turn: ${turn}`;
     }
 });
+    socket.on("clientMessage", (msg: string) => {
+        alert(msg);
+        connectedToRoom = false;
+    });
+
 
 socket.on("gameOver", (msg: string) => {
     //const roomClients = io.sockets.adapter.rooms.get(room.toString()) ?? new Set<string>(); // Cast 'room' to 'string' and provide a default value of an empty set
@@ -176,11 +182,11 @@ socket.on("gameOver", (msg: string) => {
     //const gameResult = await doGraphQLFetch(apiUrl, getGameResult, {});
 });
 
-
+/*
 /// Add winner
 socket.on("sendArray", async (players: string[]) => {
     console.log("clients: " + players);
-    players.forEach((player) => {
+    players.fo<rEach((player) => {
         console.log("room clients: " + player);
     });
     try {
@@ -196,6 +202,10 @@ socket.on("sendArray", async (players: string[]) => {
         console.error("Error:", error);
     }
 });
+
+*/
+
+
 socket.on("bust", (msg: string) => {
     alert(msg);
     // location.reload();
