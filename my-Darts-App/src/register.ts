@@ -3,6 +3,7 @@ import { doGraphQLFetch } from './fetch';
 import createRegisterModal from "./interface/createRegisterModal";
 import createMessageModal from "./interface/createMessageModal";
 import { register } from "./queries";
+import RegisterMessageResponse from "./interface/RegisterMessageResponse";
 
 
 const registerButton = document.querySelector(
@@ -32,9 +33,13 @@ const registerButton = document.querySelector(
                 user_name: username.value,
                 password: password.value,
             }
-            });
+            }) as RegisterMessageResponse;
             console.log(registerData);
             targetModal.innerHTML = createMessageModal(registerData.register.message);
+            setTimeout(() => {
+                myModal.hide();
+                window.location.href = 'index.html';
+              }, 2000);
         } catch (error) {
             console.log(error);
         }

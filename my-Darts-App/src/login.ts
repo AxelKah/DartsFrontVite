@@ -66,5 +66,5 @@ const loginButton = document.querySelector(
         console.log(error);
       }
       
-    }); // Add closing curly brace here
+    });
   });
