@@ -7,6 +7,7 @@ import { User } from "./interface/User";
 
 import { doGraphQLFetch } from './fetch';
 import { login } from './queries';
+import updateUserPanel from './interface/updateUserPanel';
 
 
 //////////////// tää johki muualle?=////////////////////////
@@ -51,6 +52,8 @@ const loginButton = document.querySelector(
          console.log(loginData);
          targetModal.innerHTML = createMessageModal(loginData.login.message);
          localStorage.setItem('token', loginData.login.token!);
+         user.user_name = loginData.login.user.user_name!;
+         updateUserPanel(user);
 
          setTimeout(() => {
             myModal.hide();
