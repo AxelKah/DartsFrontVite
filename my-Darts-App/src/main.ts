@@ -17,21 +17,16 @@ const newRoomButton = document.querySelector(
   ) as HTMLButtonElement;
 
 
-
 function onPageLoad() {
-    var pageId = document.body.id;
+    const user_name = localStorage.getItem('user_name');
+    console.log("user: " + user_name)
+    if (user_name) {
+        updateUserPanel(user_name);
 
-    switch (pageId) {
-        case "newRoom":
-            generateRoomName();
-            break;
-        case "joinRoom":
-            askRoomName();
-            break;
-        default:
-            break;
     }
 }
+
+
 
 ///TOIMIIIII
 const generateRoomName = () => {
@@ -63,6 +58,7 @@ const connectToRoom = (roomName: string) => {
     console.log("koittaa connectaa")
     console.log("current client's name is: " + socket.id);
         socket.emit("create", roomName);
+     //   socket.emit("setUserName", user_name);
         socket.emit("setCurrentTurn", socket.id);
         connectedToRoom = true;
     socket.on('connect', () => {
@@ -85,7 +81,8 @@ const askRoomName = () => {
 document.querySelector("form")?.addEventListener("submit", (event) => {
     event.preventDefault();
     const inp = document.getElementById("m") as HTMLInputElement;
-    socket.emit("update", inp.value);
+    const user_name = localStorage.getItem('user_name');
+    socket.emit("update", `${user_name} send ${inp.value}`);
     console.log("score sent: " + inp.value);
     inp.value = "";
 });

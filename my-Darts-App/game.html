@@ -22,10 +22,10 @@
     #messages li:nth-child(odd) { background: #eee; }
   </style>
           <script type="module" src="src/main.ts" defer></script>
-
-    <script type="module" src="src/queries.ts" defer></script>
-    <script type="module" src="src/main.ts" defer></script>
-    <script type="module" src="src/fetch.ts" defer></script>
+          <script type="module" src="src/fetch.ts" defer></script>
+          <script type="module" src="src/login.ts" type="module"></script>
+          <script type="module" src="src/logout.ts" type="module"></script>
+          <script type="module" src="src/register.ts" type="module"></script>
 </head>
 <body>
     <!-- Navigation-->
@@ -56,11 +56,16 @@
         </div>
     </header>
     <!-- Icons Grid-->
+    <div class="scores">
+        <h1>Scoreboard</h1>
+        <div id="scoreboard"></div>
+    </div>
         <section class="container-box">
+
             <div class="element1"></div>
             <div class="element2">
                 <ul id="messages"></ul>
-                <form action="#">
+                <form class="msgBoxes" action="#">
                 <input id="m" autocomplete="off" placeholder="Score">
                 <input id="ok" autocomplete="off" placeholder="decreaseValue">
               <input type="submit">

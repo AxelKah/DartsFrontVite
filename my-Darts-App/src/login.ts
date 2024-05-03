@@ -55,7 +55,7 @@ const loginButton = document.querySelector(
          targetModal.innerHTML = createMessageModal(loginData.login.message);
          localStorage.setItem('token', loginData.login.token!);
          user.user_name = loginData.login.user.user_name!;
-         updateUserPanel(user);
+        updateUserPanel(user.user_name);
 
          setTimeout(() => {
             myModal.hide();
@@ -64,7 +64,7 @@ const loginButton = document.querySelector(
           loginButton.parentElement!.classList.remove('d-none');
         //  forms.classList.remove('d-none');
           localStorage.setItem('token', loginData.login.token!);
-          localStorage.setItem('user', JSON.stringify(loginData.login));
+          localStorage.setItem('user_name', loginData.login.user.user_name!);
 // jos ei muuta keksitä          localStorage.setItem('user', JSON.stringify(loginData.login.user));
           user.user_name = loginData.login.user.user_name!;
 
