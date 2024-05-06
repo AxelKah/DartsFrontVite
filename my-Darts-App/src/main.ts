@@ -1,16 +1,14 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { io } from 'socket.io-client';
-import { addGame } from './queries';
-import { doGraphQLFetch } from './fetch';
+import { addGame } from './graphql/queries';
+import { doGraphQLFetch } from './graphql/fetch';
 import updateUserPanel from './interface/updateUserPanel';
 
+const apiUrl = import.meta.env.VITE_API_URL;
+const socket = io(import.meta.env.VITE_SOCKET_URL);
 
-const apiUrl = 'http://localhost:3000/graphql';
-
-const socket = io('http://localhost:3003');
 
 let connectedToRoom = false;
-
 
 const newRoomButton = document.querySelector(
     '#login-button',
@@ -27,48 +25,42 @@ function onPageLoad() {
 }
 
 
-
-///TOIMIIIII
+///Generates new room name
 const generateRoomName = () => {
-    // Generate a random room name
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let roomName = '';
     for (let i = 0; i < 1; i++) {
         roomName += characters.charAt(Math.floor(Math.random() * characters.length));
     }
-    console.log("roomName: " + roomName)
+ //   console.log("roomName: " + roomName)
     displayRoomName(roomName);
-    // Call the function to connect to the room
-    console.log("UUUSI HUONE")
+   // console.log("UUUSI HUONE")
     connectToRoom(roomName);
 };
 
 
-//TOIMIII
+//Shows room name on the page
 const displayRoomName = (roomName: string) => {
     const roomNameElement = document.getElementById('roomName');
-    console.log("koittaa näyttää")
+  //  console.log("koittaa näyttää")
     if (roomNameElement) {
-        roomNameElement.textContent = `your room code is: ${roomName}`;
+        roomNameElement.textContent = `Your room code is: ${roomName}, share it with your friend!`;
     }
 };
 
-
+//Connects user to room
 const connectToRoom = (roomName: string) => {
-    console.log("koittaa connectaa")
-    console.log("current client's name is: " + socket.id);
+  //  console.log("current client's name is: " + socket.id);
         socket.emit("create", roomName);
      //   socket.emit("setUserName", user_name);
         socket.emit("setCurrentTurn", socket.id);
         connectedToRoom = true;
-    socket.on('connect', () => {
-        // Connection established, now you can access socket.id safely
-        
+    socket.on('connect', () => {        
     });
 };
 
 
-//// KYSy huoneen ninme
+//// Promts user to enter room name
 const askRoomName = () => {
     const roomName = prompt("Enter room name:");
     socket.emit("create", roomName);
@@ -77,22 +69,22 @@ const askRoomName = () => {
     console.log("connectedToRoom: " + connectedToRoom);
 }
 
-//Submit nappi
+//Submit button for sending messages
 document.querySelector("form")?.addEventListener("submit", (event) => {
     event.preventDefault();
-    const inp = document.getElementById("m") as HTMLInputElement;
+    const inp = document.getElementById("messageText") as HTMLInputElement;
     const user_name = localStorage.getItem('user_name');
-    socket.emit("update", `${user_name} send ${inp.value}`);
-    console.log("score sent: " + inp.value);
+    socket.emit("update", `${user_name} send: ${inp.value}`);
+  //  console.log("score sent: " + inp.value);
     inp.value = "";
 });
 
-///SendValue nappi
+///Send darts values
 document.querySelector("input[id=valueSender]")?.addEventListener("click", (event) => {
     event.preventDefault();
-    const inp = document.getElementById("ok") as HTMLInputElement;
+    const inp = document.getElementById("turnScore") as HTMLInputElement;
     const value = parseInt(inp.value);
-    console.log("scorevaleu fiels: " + value);
+    console.log("Turn score:  " + value);
     if (isNaN(value)) { 
         alert("Please enter a valid integer value.");
         return;
@@ -101,9 +93,13 @@ document.querySelector("input[id=valueSender]")?.addEventListener("click", (even
     inp.value = "";
 });
 
-///JoinGame nappi
+//JoinGame button function
 document.querySelector("a[id=joinGame]")?.addEventListener("click", (event) => {
     event.preventDefault();
+    if (!localStorage.getItem('user_name')) {
+        alert("Please log in before joining a game.");
+        return;
+    }
     if(connectedToRoom == false) {
     askRoomName();
     }
@@ -129,17 +125,14 @@ document.querySelector("input[id=endGame]")?.addEventListener("click", (event) =
 });
 
 ///CreateGame nappi
-
 document.querySelector("a[id=createGame]")?.addEventListener("click", (event) => {
     event.preventDefault();
+    if (!localStorage.getItem('user_name')) {
+        alert("Please log in before creating a game.");
+        return;
+    }
     generateRoomName();
 });
-
-
-document.querySelector("input[id=valueSender]")?.addEventListener("click", () => {
-    console.log("test");
-});
-
 
 socket.on("test", (msg: string) => {
     const item = document.createElement("li");
@@ -147,14 +140,19 @@ socket.on("test", (msg: string) => {
     const list = document.getElementById("messages");
     list?.appendChild(item);
 });
-
+//////////////////// vaihda id socketidksi joka tulee serveriltä
 socket.on("updateScore", (msg: string) => {
     // Parse the received message as an object
     const { name, score, turn } = JSON.parse(msg);
-
+    console.log("name: " + name + " score: " + score + " turn: " + turn);
     // Create a new list item element
+    let p1Score = document.getElementById("player1Score");
+    let p2Score = document.getElementById("player2Score");
     const item = document.createElement("li");
     item.innerHTML = `${name}: ${score}`;
+    if (p1Score) {
+        p1Score.innerHTML = `${score}`;
+    }
 
     // Append the new item to the messages list
     const list = document.getElementById("messages");
@@ -182,6 +180,20 @@ socket.on("gameOver", (msg: string) => {
 
     });
 
+    socket.on("sendArray", (players: Array<string>) => {
+        const p1Name = document.getElementById("p1Name");
+        const p2Name = document.getElementById("p2Name");
+        console.log("clients: " + players);
+        players.forEach((player) => {
+            console.log("room clients: " + player);
+            if (p1Name) {
+                p1Name.innerHTML = players[0];
+            }
+            if (p2Name) {
+                p2Name.innerHTML = players[1];
+            }
+        });
+    });
     
 
     // location.reload();
@@ -224,33 +236,10 @@ socket.on("currentTurn", (msg: string) => {
 });
 
 socket.on("scoreUpdateInProgress", (msg: string) => {
-    alert("test" + msg);
+    alert(msg);
 });
 
 let currentTurn: string | null = null;
 
-/*
-socket.on("addAnimal", async(msg) => {
-    const animalResult = await doGraphQLFetch(apiUrl, getAllAnimals, {});
-
-    animalResult.animals.array.forEach((animal) => {
-        const item = document.createElement("li");
-        item.innerHTML = animal.animal_name;
-        const list = document.getElementById("messages");
-        list.appendChild(item);
-    });
-});
-
-socket.on("addSpecies", async(msg) => {
-    const speciesResult = await doGraphQLFetch(apiUrl, getAllSpecies, {});
-
-    speciesResult.species.array.forEach((species) => {
-        const item = document.createElement("li");
-        item.innerHTML = species.species_name;
-        const list = document.getElementById("messages");
-        list.appendChild(item);
-    });
-});
-*/
 
 window.onload = onPageLoad;

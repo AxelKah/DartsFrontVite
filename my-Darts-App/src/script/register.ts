@@ -1,9 +1,9 @@
 import { Modal } from "bootstrap";
-import { doGraphQLFetch } from './fetch';
-import createRegisterModal from "./interface/createRegisterModal";
-import createMessageModal from "./interface/createMessageModal";
-import { register } from "./queries";
-import RegisterMessageResponse from "./interface/RegisterMessageResponse";
+import { doGraphQLFetch } from '../graphql/fetch';
+import createRegisterModal from "../interface/createRegisterModal";
+import createMessageModal from "../interface/createMessageModal";
+import { register } from "../graphql/queries";
+import RegisterMessageResponse from "../interface/RegisterMessageResponse";
 
 
 const registerButton = document.querySelector(
@@ -13,7 +13,7 @@ const registerButton = document.querySelector(
 
     const myModal = new Modal('#darts-modal');
 
-    const apiURL = 'http://localhost:3000/graphql';
+    const apiURL = import.meta.env.VITE_API_URL;
 
     const forms = document.querySelector('#forms') as HTMLDivElement;
 

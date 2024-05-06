@@ -14,19 +14,20 @@
         <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css" />
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="src/css/styles.css" rel="stylesheet" />
-        <script type="module" src="src/queries.ts" defer></script>
+
         <script type="module" src="src/main.ts" defer></script>
 
-<script type="module" src="src/fetch.ts" defer></script>
-<script type="module" src="src/login.ts" type="module"></script>
-<script type="module" src="src/logout.ts" type="module"></script>
-<script type="module" src="src/register.ts" type="module"></script>
-    </head>
+        <script type="module" src="src/graphql/queries.ts" defer></script>
+        <script type="module" src="src/graphql/fetch.ts" defer></script>
+        <script type="module" src="src/script/login.ts" type="module"></script>
+        <script type="module" src="src/script/logout.ts" type="module"></script>
+        <script type="module" src="src/script/register.ts" type="module"></script>
+</head>
     <body>
         <!-- Navigation-->
         <nav class="navbar navbar-dark bg-dark static-top">
             <div class="container">
-                <a id="navbar-text" class="navbar-brand" href="#!">Darts app</a>
+                <a id="navbar-text" class="navbar-brand" href="index.html">Darts app</a>
                 <div id="btnGroup">
                     <div id="logRegBtn">
                 <a class="btn btn-primary" id="login-button">Login</a>
@@ -36,7 +37,7 @@
                 </div>
             </div>
             
-        </div>
+        </nav>
             
             
         </nav>
@@ -61,21 +62,21 @@
                 <div class="row">
                     <div class="col-lg-4">
                         <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
-                            <div class="features-icons-icon d-flex"><i class="bi-window m-auto text-primary"></i></div>
+                            <div class="features-icons-icon d-flex"><i class="bi-play-circle m-auto text-primary"></i></div>
                             <h3>Play against your friends</h3>
                             <p class="lead mb-0">Registering to the site allows you to create private 1v1 game rooms</p>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
-                            <div class="features-icons-icon d-flex"><i class="bi-layers m-auto text-primary"></i></div>
+                            <div class="features-icons-icon d-flex"><i class="bi-card-list m-auto text-primary"></i></div>
                             <h3>Keep track of your games</h3>
                             <p class="lead mb-0">Your games will be stores for later viewing</p>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="features-icons-item mx-auto mb-0 mb-lg-3">
-                            <div class="features-icons-icon d-flex"><i class="bi-terminal m-auto text-primary"></i></div>
+                            <div class="features-icons-icon d-flex"><i class="bi-emoji-smile m-auto text-primary"></i></div>
                             <h3>Have fun playing</h3>
                         </div>
                     </div>

@@ -8,10 +8,23 @@
     padding: 20px;
 }
 
-.scores {
+.scoreboard{
+    /* Add your styles for the scoreboard here */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 50px;
+    align-items: center;
+    flex: 100%;
+    background-color: #d2d2d2;
+    border-radius: 10px;
+
+}
+
+.scores2222 {
     /* Add your styles for the scores here */
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     flex: 30%;
     background-color: #d2d2d2;

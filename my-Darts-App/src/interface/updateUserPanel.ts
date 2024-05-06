@@ -1,4 +1,3 @@
-import { User } from "./User";
 
 export default function updateUserPanel(user: String): void {
   const userPanel = document.querySelector('#navbar-text');
