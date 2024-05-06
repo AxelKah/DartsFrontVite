@@ -7,6 +7,8 @@ import updateUserPanel from './interface/updateUserPanel';
 const apiUrl = import.meta.env.VITE_API_URL;
 const socket = io(import.meta.env.VITE_SOCKET_URL);
 
+const p1Name = document.getElementById("p1Name");
+const p2Name = document.getElementById("p2Name");
 
 let connectedToRoom = false;
 
@@ -146,12 +148,20 @@ socket.on("updateScore", (msg: string) => {
     const { name, score, turn } = JSON.parse(msg);
     console.log("name: " + name + " score: " + score + " turn: " + turn);
     // Create a new list item element
-    let p1Score = document.getElementById("player1Score");
-    let p2Score = document.getElementById("player2Score");
+    const p1Score = document.getElementById("player1Score");
+    const p2Score = document.getElementById("player2Score");
     const item = document.createElement("li");
     item.innerHTML = `${name}: ${score}`;
-    if (p1Score) {
-        p1Score.innerHTML = `${score}`;
+
+    if (name === p1Name?.innerHTML) {
+        if (p1Score) {
+            p1Score.innerHTML = `${score}`;
+        }
+    } else if (name === p2Name?.innerHTML) {
+        console.log("p2Score: " + p2Score);
+        if (p2Score) {
+            p2Score.innerHTML = `${score}`;
+        }
     }
 
     // Append the new item to the messages list
@@ -181,9 +191,7 @@ socket.on("gameOver", (msg: string) => {
     });
 
     socket.on("sendArray", (players: Array<string>) => {
-        const p1Name = document.getElementById("p1Name");
-        const p2Name = document.getElementById("p2Name");
-        console.log("clients: " + players);
+   console.log("clients: " + players);
         players.forEach((player) => {
             console.log("room clients: " + player);
             if (p1Name) {
@@ -204,17 +212,24 @@ socket.on("gameOver", (msg: string) => {
 
 /*
 /// Add winner
-socket.on("sendArray", async (players: string[]) => {
-    console.log("clients: " + players);
-    players.fo<rEach((player) => {
-        console.log("room clients: " + player);
-    });
+socket.on("sendWinner", async (gameInfo: string) => {
+
+    const {user1, user2, winner} = JSON.parse(gameInfo);
+    console.log("user1: " + user1 + " user2: " + user2 + " winner: " + winner);
+
+    //console.log("pelin tiedot: " + gameInfo);
+   // console.log("pelaajat: " + gameInfo[0] + " ja " + gameInfo[1]);
+   // const {user1, user2, winner} = JSON.parse(gameInfo[0]);
+ //   console.log("user1: " + user1 + " user2: " + user2 + " winner: " + winner);
     try {
-        const winnerData = await doGraphQLFetch(apiUrl, addGame, {
+        console.log("user1: " + user1 + " user2: " + user2 + " winner: " + winner);
+
+        const winnerData = await doGraphQLFetch(apiUrl, addGame, 
+            {
             game: {
-                user1: players[0],
-                user2: players[1],
-                winner: "test",
+                user1: user1,
+                user2: user2,
+                winner: winner,
             },
         });
         console.log("winnerData: ", winnerData);
@@ -222,8 +237,10 @@ socket.on("sendArray", async (players: string[]) => {
         console.error("Error:", error);
     }
 });
-
 */
+
+
+
 
 
 socket.on("bust", (msg: string) => {
