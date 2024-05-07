@@ -1,25 +1,33 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { io } from 'socket.io-client';
-import { addGame } from './graphql/queries';
-import { doGraphQLFetch } from './graphql/fetch';
 import updateUserPanel from './interface/updateUserPanel';
 
 const apiUrl = import.meta.env.VITE_API_URL;
 const socket = io(import.meta.env.VITE_SOCKET_URL);
 
-const p1Name = document.getElementById("p1Name");
-const p2Name = document.getElementById("p2Name");
+const p1Name = document.getElementById("p1Name") as HTMLDivElement;
+const p2Name = document.getElementById("p2Name") as HTMLDivElement;
+const p1Score = document.getElementById("player1Score") as HTMLDivElement;
+const p2Score = document.getElementById("player2Score") as HTMLDivElement;
+const sendMessageBtn = document.querySelector("input[id=valueSender]") as HTMLButtonElement;
+const roomNameElement = document.getElementById('roomName') as HTMLDivElement;
+const newRoomButton = document.querySelector('#login-button') as HTMLButtonElement;
+const createGameButton = document.querySelector("a[id=createGame]") as HTMLButtonElement;
+const joinGameButton = document.querySelector("a[id=joinGame]") as HTMLButtonElement;
+const endGameButton = document.querySelector("input[id=endGame]") as HTMLButtonElement;
+
+
+
+const item = document.createElement("li");
 
 let connectedToRoom = false;
 
-const newRoomButton = document.querySelector(
-    '#login-button',
-  ) as HTMLButtonElement;
+
 
 
 function onPageLoad() {
     const user_name = localStorage.getItem('user_name');
-    console.log("user: " + user_name)
+  //  console.log("user: " + user_name)
     if (user_name) {
         updateUserPanel(user_name);
 
@@ -31,20 +39,17 @@ function onPageLoad() {
 const generateRoomName = () => {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let roomName = '';
+    // Change the number in the loop to change the length of the room name
     for (let i = 0; i < 1; i++) {
         roomName += characters.charAt(Math.floor(Math.random() * characters.length));
     }
- //   console.log("roomName: " + roomName)
     displayRoomName(roomName);
-   // console.log("UUUSI HUONE")
     connectToRoom(roomName);
 };
 
 
 //Shows room name on the page
 const displayRoomName = (roomName: string) => {
-    const roomNameElement = document.getElementById('roomName');
-  //  console.log("koittaa näyttää")
     if (roomNameElement) {
         roomNameElement.textContent = `Your room code is: ${roomName}, share it with your friend!`;
     }
@@ -52,9 +57,7 @@ const displayRoomName = (roomName: string) => {
 
 //Connects user to room
 const connectToRoom = (roomName: string) => {
-  //  console.log("current client's name is: " + socket.id);
         socket.emit("create", roomName);
-     //   socket.emit("setUserName", user_name);
         socket.emit("setCurrentTurn", socket.id);
         connectedToRoom = true;
     socket.on('connect', () => {        
@@ -77,7 +80,6 @@ document.querySelector("form")?.addEventListener("submit", (event) => {
     const inp = document.getElementById("messageText") as HTMLInputElement;
     const user_name = localStorage.getItem('user_name');
     socket.emit("update", `${user_name} send: ${inp.value}`);
-  //  console.log("score sent: " + inp.value);
     inp.value = "";
 });
 
@@ -86,7 +88,6 @@ document.querySelector("input[id=valueSender]")?.addEventListener("click", (even
     event.preventDefault();
     const inp = document.getElementById("turnScore") as HTMLInputElement;
     const value = parseInt(inp.value);
-    console.log("Turn score:  " + value);
     if (isNaN(value)) { 
         alert("Please enter a valid integer value.");
         return;
@@ -96,7 +97,7 @@ document.querySelector("input[id=valueSender]")?.addEventListener("click", (even
 });
 
 //JoinGame button function
-document.querySelector("a[id=joinGame]")?.addEventListener("click", (event) => {
+joinGameButton.addEventListener("click", (event) => {
     event.preventDefault();
     if (!localStorage.getItem('user_name')) {
         alert("Please log in before joining a game.");
@@ -111,10 +112,8 @@ document.querySelector("a[id=joinGame]")?.addEventListener("click", (event) => {
   
 });
 
-
-
 ///EndGame nappi
-document.querySelector("input[id=endGame]")?.addEventListener("click", (event) => {
+endGameButton.addEventListener("click", (event) => {
     event.preventDefault();
     if(connectedToRoom == true) {
     connectedToRoom = false;
@@ -126,8 +125,8 @@ document.querySelector("input[id=endGame]")?.addEventListener("click", (event) =
   //  socket.emit("endGame");
 });
 
-///CreateGame nappi
-document.querySelector("a[id=createGame]")?.addEventListener("click", (event) => {
+///CreateGame btn function
+createGameButton.addEventListener("click", (event) => {
     event.preventDefault();
     if (!localStorage.getItem('user_name')) {
         alert("Please log in before creating a game.");
@@ -136,29 +135,21 @@ document.querySelector("a[id=createGame]")?.addEventListener("click", (event) =>
     generateRoomName();
 });
 
+
 socket.on("test", (msg: string) => {
     const item = document.createElement("li");
     item.innerHTML = msg;
     const list = document.getElementById("messages");
     list?.appendChild(item);
 });
-//////////////////// vaihda id socketidksi joka tulee serveriltä
 socket.on("updateScore", (msg: string) => {
-    // Parse the received message as an object
     const { name, score, turn } = JSON.parse(msg);
-    console.log("name: " + name + " score: " + score + " turn: " + turn);
-    // Create a new list item element
-    const p1Score = document.getElementById("player1Score");
-    const p2Score = document.getElementById("player2Score");
-    const item = document.createElement("li");
     item.innerHTML = `${name}: ${score}`;
-
     if (name === p1Name?.innerHTML) {
         if (p1Score) {
             p1Score.innerHTML = `${score}`;
         }
     } else if (name === p2Name?.innerHTML) {
-        console.log("p2Score: " + p2Score);
         if (p2Score) {
             p2Score.innerHTML = `${score}`;
         }
@@ -181,17 +172,14 @@ socket.on("updateScore", (msg: string) => {
 
 
 socket.on("gameOver", (msg: string) => {
-    //const roomClients = io.sockets.adapter.rooms.get(room.toString()) ?? new Set<string>(); // Cast 'room' to 'string' and provide a default value of an empty set
     alert(msg);
-    console.log(msg);
     connectedToRoom = false;
-    const sendMessageBtn = document.querySelector("input[id=valueSender]") as HTMLButtonElement;
     sendMessageBtn.disabled = true;
 
     });
 
     socket.on("sendArray", (players: Array<string>) => {
-   console.log("clients: " + players);
+  // console.log("clients: " + players);
         players.forEach((player) => {
             console.log("room clients: " + player);
             if (p1Name) {
@@ -249,6 +237,7 @@ socket.on("bust", (msg: string) => {
 });
 
 socket.on("currentTurn", (msg: string) => {
+    console.log("current turn update: " + msg);
     currentTurn = msg;
 });
 
