@@ -11,10 +11,10 @@ const p1Score = document.getElementById("player1Score") as HTMLDivElement;
 const p2Score = document.getElementById("player2Score") as HTMLDivElement;
 const sendMessageBtn = document.querySelector("input[id=valueSender]") as HTMLButtonElement;
 const roomNameElement = document.getElementById('roomName') as HTMLDivElement;
-const newRoomButton = document.querySelector('#login-button') as HTMLButtonElement;
 const createGameButton = document.querySelector("a[id=createGame]") as HTMLButtonElement;
 const joinGameButton = document.querySelector("a[id=joinGame]") as HTMLButtonElement;
 const endGameButton = document.querySelector("input[id=endGame]") as HTMLButtonElement;
+const user_name = localStorage.getItem('user_name');
 
 
 
@@ -57,7 +57,7 @@ const displayRoomName = (roomName: string) => {
 
 //Connects user to room
 const connectToRoom = (roomName: string) => {
-        socket.emit("create", roomName);
+        socket.emit("create", roomName, user_name);
         socket.emit("setCurrentTurn", socket.id);
         connectedToRoom = true;
     socket.on('connect', () => {        
@@ -68,10 +68,12 @@ const connectToRoom = (roomName: string) => {
 //// Promts user to enter room name
 const askRoomName = () => {
     const roomName = prompt("Enter room name:");
-    socket.emit("create", roomName);
-    console.log("current client's name is: " + socket.id);
-    connectedToRoom = true;
-    console.log("connectedToRoom: " + connectedToRoom);
+    if (roomName) {
+        socket.emit("create", roomName, user_name);
+        console.log("current client's name is: " + socket.id);
+        connectedToRoom = true;
+        console.log("connectedToRoom: " + connectedToRoom);
+    }
 }
 
 //Submit button for sending messages
@@ -92,12 +94,12 @@ document.querySelector("input[id=valueSender]")?.addEventListener("click", (even
         alert("Please enter a valid integer value.");
         return;
     }
-    socket.emit("decreaseScore", value);
+    socket.emit("decreaseScore", value, user_name);
     inp.value = "";
 });
 
 //JoinGame button function
-joinGameButton.addEventListener("click", (event) => {
+joinGameButton?.addEventListener("click", (event) => {
     event.preventDefault();
     if (!localStorage.getItem('user_name')) {
         alert("Please log in before joining a game.");
@@ -113,7 +115,7 @@ joinGameButton.addEventListener("click", (event) => {
 });
 
 ///EndGame nappi
-endGameButton.addEventListener("click", (event) => {
+endGameButton?.addEventListener("click", (event) => {
     event.preventDefault();
     if(connectedToRoom == true) {
     connectedToRoom = false;
@@ -126,7 +128,7 @@ endGameButton.addEventListener("click", (event) => {
 });
 
 ///CreateGame btn function
-createGameButton.addEventListener("click", (event) => {
+createGameButton?.addEventListener("click", (event) => {
     event.preventDefault();
     if (!localStorage.getItem('user_name')) {
         alert("Please log in before creating a game.");
@@ -144,6 +146,7 @@ socket.on("test", (msg: string) => {
 });
 socket.on("updateScore", (msg: string) => {
     const { name, score, turn } = JSON.parse(msg);
+
     item.innerHTML = `${name}: ${score}`;
     if (name === p1Name?.innerHTML) {
         if (p1Score) {
@@ -155,9 +158,10 @@ socket.on("updateScore", (msg: string) => {
         }
     }
 
-    // Append the new item to the messages list
+    const scoreMsg = document.createElement("li");
+    scoreMsg.innerHTML = `${name}: ${score}`;
     const list = document.getElementById("messages");
-    list?.appendChild(item);
+    list?.appendChild(scoreMsg);
 
     // Update the client score div
     const clientScoreDiv = document.getElementById("clientScores");
