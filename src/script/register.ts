@@ -13,7 +13,9 @@ const registerButton = document.querySelector(
 
     const myModal = new Modal('#darts-modal');
 
-    const apiURL = import.meta.env.VITE_API_URL;
+  //  const apiURL = import.meta.env.VITE_API_URL;
+    const apiURL = "https://axelkah-darts.azurewebsites.net/graphql";
+
 
     const forms = document.querySelector('#forms') as HTMLDivElement;
 
