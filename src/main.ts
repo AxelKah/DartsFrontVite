@@ -3,7 +3,8 @@ import { io } from 'socket.io-client';
 import updateUserPanel from './interface/updateUserPanel';
 
 //const apiUrl = import.meta.env.VITE_API_URL;
-const socket = io(import.meta.env.VITE_SOCKET_URL);
+//const socket = io(import.meta.env.VITE_SOCKET_URL);
+const socket = io("https://axelkah-darts-socket.azurewebsites.net/");
 
 const p1Name = document.getElementById("p1Name") as HTMLDivElement;
 const p2Name = document.getElementById("p2Name") as HTMLDivElement;
