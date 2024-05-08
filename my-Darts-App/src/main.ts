@@ -2,7 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { io } from 'socket.io-client';
 import updateUserPanel from './interface/updateUserPanel';
 
-const apiUrl = import.meta.env.VITE_API_URL;
+//const apiUrl = import.meta.env.VITE_API_URL;
 const socket = io(import.meta.env.VITE_SOCKET_URL);
 
 const p1Name = document.getElementById("p1Name") as HTMLDivElement;
@@ -21,6 +21,7 @@ const user_name = localStorage.getItem('user_name');
 const item = document.createElement("li");
 
 let connectedToRoom = false;
+//let currentTurn: string | null = null;
 
 
 
@@ -242,14 +243,13 @@ socket.on("bust", (msg: string) => {
 
 socket.on("currentTurn", (msg: string) => {
     console.log("current turn update: " + msg);
-    currentTurn = msg;
+  //  currentTurn = msg;
 });
 
 socket.on("scoreUpdateInProgress", (msg: string) => {
     alert(msg);
 });
 
-let currentTurn: string | null = null;
 
 
 window.onload = onPageLoad;

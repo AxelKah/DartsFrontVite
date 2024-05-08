@@ -16,7 +16,7 @@ const loginButton = document.querySelector(
   const myModal = new Modal('#darts-modal');
   const user: User = {};
   const apiUrl = import.meta.env.VITE_API_URL;
-  const forms = document.querySelector('#forms') as HTMLDivElement;
+ // const forms = document.querySelector('#forms') as HTMLDivElement;
 
   loginButton.addEventListener('click', async () => {
     targetModal.innerHTML = createLoginModal();
