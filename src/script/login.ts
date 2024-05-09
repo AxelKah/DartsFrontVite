@@ -15,8 +15,9 @@ const loginButton = document.querySelector(
   const targetModal = document.querySelector('.modal-content')!;
   const myModal = new Modal('#darts-modal');
   const user: User = {};
- // const apiUrl = import.meta.env.VITE_API_URL;
- const apiUrl = "https://axelkah-darts.azurewebsites.net/graphql";
+  const apiUrl = import.meta.env.VITE_API_URL;
+  console.log("apiurliiii" + apiUrl)
+// const apiUrl = "https://axelkah-darts.azurewebsites.net/graphql";
 
  // const forms = document.querySelector('#forms') as HTMLDivElement;
 
