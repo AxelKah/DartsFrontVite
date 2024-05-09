@@ -16,6 +16,7 @@ const createGameButton = document.querySelector("a[id=createGame]") as HTMLButto
 const joinGameButton = document.querySelector("a[id=joinGame]") as HTMLButtonElement;
 const endGameButton = document.querySelector("input[id=endGame]") as HTMLButtonElement;
 const user_name = localStorage.getItem('user_name');
+let dartsValue = 0; 
 
 
 
@@ -92,6 +93,7 @@ document.querySelector("input[id=valueSender]")?.addEventListener("click", (even
     event.preventDefault();
     const inp = document.getElementById("turnScore") as HTMLInputElement;
     const value = parseInt(inp.value);
+    dartsValue = parseInt(inp.value);
     if (isNaN(value)) { 
         alert("Please enter a valid integer value.");
         return;
@@ -149,7 +151,7 @@ socket.on("test", (msg: string) => {
 socket.on("updateScore", (msg: string) => {
     const { name, score, turn } = JSON.parse(msg);
 
-    item.innerHTML = `${name}: ${score}`;
+    item.innerHTML = `${name} threw: ${dartsValue}. Score left: ${score}`;
     if (name === p1Name?.innerHTML) {
         if (p1Score) {
             p1Score.innerHTML = `${score}`;
