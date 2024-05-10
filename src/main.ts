@@ -43,7 +43,7 @@ const generateRoomName = () => {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let roomName = '';
     // Change the number in the loop to change the length of the room name
-    for (let i = 0; i < 1; i++) {
+    for (let i = 0; i < 4; i++) {
         roomName += characters.charAt(Math.floor(Math.random() * characters.length));
     }
     displayRoomName(roomName);
