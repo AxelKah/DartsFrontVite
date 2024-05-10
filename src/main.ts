@@ -16,6 +16,7 @@ const createGameButton = document.querySelector("a[id=createGame]") as HTMLButto
 const joinGameButton = document.querySelector("a[id=joinGame]") as HTMLButtonElement;
 const endGameButton = document.querySelector("input[id=endGame]") as HTMLButtonElement;
 const user_name = localStorage.getItem('user_name');
+const currentTurnElement = document.getElementById("currentPlayer") as HTMLDivElement;
 
 
 
@@ -249,6 +250,8 @@ socket.on("bust", (msg: string) => {
 socket.on("currentTurn", (msg: string) => {
     console.log("current turn update: " + msg);
     currentTurn = msg;
+    currentTurnElement.innerHTML = `Current turn: ${msg}`;
+
 });
 
 socket.on("scoreUpdateInProgress", (msg: string) => {

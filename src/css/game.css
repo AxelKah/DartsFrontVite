@@ -20,7 +20,14 @@
     border-radius: 10px;
 
 }
+.middleInfo{
+    /* Add your styles for the middleInfo here */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
+}
 .scores2222 {
     /* Add your styles for the scores here */
     display: flex;
