@@ -185,7 +185,7 @@ socket.on("gameOver", (msg: string) => {
     });
 
     socket.on("sendArray", (players: Array<string>) => {
-  // console.log("clients: " + players);
+   console.log("clients all in the room: " + players);
         players.forEach((player) => {
             console.log("room clients: " + player);
             if (p1Name) {
