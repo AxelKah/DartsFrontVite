@@ -163,7 +163,7 @@ socket.on("updateScore", (msg: string) => {
     }
 
     const scoreMsg = document.createElement("li");
-    scoreMsg.innerHTML = `${name} threw: ${dartsValue}. Score left: ${score}`;
+    scoreMsg.innerHTML = `${name} threw: ${throwScore}. Score left: ${score}`;
     const list = document.getElementById("messages");
     list?.appendChild(scoreMsg);
 
