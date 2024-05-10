@@ -22,7 +22,7 @@ const user_name = localStorage.getItem('user_name');
 const item = document.createElement("li");
 
 let connectedToRoom = false;
-//let currentTurn: string | null = null;
+let currentTurn: string | null = null;
 
 
 
@@ -60,7 +60,7 @@ const displayRoomName = (roomName: string) => {
 //Connects user to room
 const connectToRoom = (roomName: string) => {
         socket.emit("create", roomName, user_name);
-        socket.emit("setCurrentTurn", socket.id);
+        socket.emit("setCurrentTurn", user_name);
         connectedToRoom = true;
     socket.on('connect', () => {        
     });
@@ -90,6 +90,8 @@ document.querySelector("form")?.addEventListener("submit", (event) => {
 ///Send darts values
 document.querySelector("input[id=valueSender]")?.addEventListener("click", (event) => {
     event.preventDefault();
+    if(currentTurn == localStorage.getItem('user_name')) {
+
     const inp = document.getElementById("turnScore") as HTMLInputElement;
     const value = parseInt(inp.value);
     if (isNaN(value)) { 
@@ -98,7 +100,9 @@ document.querySelector("input[id=valueSender]")?.addEventListener("click", (even
     }
     socket.emit("decreaseScore", value, user_name);
     inp.value = "";
-});
+}else {
+    alert("It's not your turn!");
+}});
 
 //JoinGame button function
 joinGameButton?.addEventListener("click", (event) => {
@@ -244,7 +248,7 @@ socket.on("bust", (msg: string) => {
 
 socket.on("currentTurn", (msg: string) => {
     console.log("current turn update: " + msg);
-  //  currentTurn = msg;
+    currentTurn = msg;
 });
 
 socket.on("scoreUpdateInProgress", (msg: string) => {
