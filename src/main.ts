@@ -149,9 +149,9 @@ socket.on("test", (msg: string) => {
     list?.appendChild(item);
 });
 socket.on("updateScore", (msg: string) => {
-    const { name, score, turn } = JSON.parse(msg);
+    const { name, score, turn, throwScore } = JSON.parse(msg);
 
-    item.innerHTML = `${name} threw: ${dartsValue}. Score left: ${score}`;
+    item.innerHTML = `${name} threw: ${throwScore}. Score left: ${score}`;
     if (name === p1Name?.innerHTML) {
         if (p1Score) {
             p1Score.innerHTML = `${score}`;
