@@ -99,6 +99,10 @@ document.querySelector("input[id=valueSender]")?.addEventListener("click", (even
         alert("Please enter a valid integer value.");
         return;
     }
+    if (value < 0 || value > 180) {
+        alert("Please enter a value between 0 and 180.");
+        return;
+    }
     socket.emit("decreaseScore", value, user_name);
     inp.value = "";
 }else {
@@ -153,7 +157,8 @@ socket.on("test", (msg: string) => {
 });
 socket.on("updateScore", (msg: string) => {
     const { name, score, turn, throwScore } = JSON.parse(msg);
-
+    currentTurn = turn;
+    console.log("update scoresssaa  current turn: " + turn);
     item.innerHTML = `${name} threw: ${throwScore}. Score left: ${score}`;
     if (name === p1Name?.innerHTML) {
         if (p1Score) {
